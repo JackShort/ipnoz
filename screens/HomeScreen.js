@@ -106,7 +106,7 @@ export default class HomeScreen extends React.Component {
           keyExtractor={item => item.Name}
         />
 
-        <Button title="Actually, sign me out :)" onPress={this._signOutAsync} />
+        <Button title="Sign out" onPress={this._signOutAsync} />
       </View>
     );
   }
