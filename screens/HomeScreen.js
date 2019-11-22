@@ -8,63 +8,96 @@ import {
   Text,
   TouchableOpacity,
   View,
+  FlatList,
+  TouchableHighlight,
 } from 'react-native';
 
 import { MonoText } from '../components/StyledText';
 
+const DATA = [
+  {
+    Name: 'Investment 1',
+    Price: '$1',
+    Description: "Test Description"
+  },
+  {
+    Name: 'Investment 2',
+    Price: '$2',
+    Description: "Test Description"
+  },
+  {
+    Name: 'Investment 3',
+    Price: '$3',
+    Description: "Test Description"
+  },
+
+   {
+    Name: 'Investment 4',
+    Price: '$1',
+    Description: "Test Description"
+  },
+  {
+    Name: 'Investment 5',
+    Price: '$2',
+    Description: "Test Description"
+  },
+  {
+    Name: 'Investment 6',
+    Price: '$3',
+    Description: "Test Description"
+  },
+
+   {
+    Name: 'Investment 7',
+    Price: '$1',
+    Description: "Test Description"
+  },
+  {
+    Name: 'Investment 8',
+    Price: '$2',
+    Description: "Test Description"
+  },
+  {
+    Name: 'Investment 9',
+    Price: '$3',
+    Description: "Test Description"
+  },
+
+   {
+    Name: 'Investment 10',
+    Price: '$1',
+    Description: "Test Description"
+  },
+  {
+    Name: 'Investment 11',
+    Price: '$2',
+    Description: "Test Description"
+  },
+  {
+    Name: 'Investment 12',
+    Price: '$3',
+    Description: "Test Description"
+  },
+];
+
+function Item({ Name, Price, Description }) {
+  return (
+    <View style={styles.item}>
+      <TouchableHighlight onPress={(Description) => alert("Description")}> 
+        <Text style={styles.investmentName}>{Name}, {Price} </Text>
+      </TouchableHighlight>
+    </View>
+  );
+}
+
 export default function HomeScreen() {
   return (
     <View style={styles.container}>
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={styles.contentContainer}>
-        <View style={styles.welcomeContainer}>
-          <Image
-            source={
-              __DEV__
-                ? require('../assets/images/robot-dev.png')
-                : require('../assets/images/robot-prod.png')
-            }
-            style={styles.welcomeImage}
-          />
-        </View>
-
-        <View style={styles.getStartedContainer}>
-          <DevelopmentModeNotice />
-
-          <Text style={styles.getStartedText}>Get started by opening</Text>
-
-          <View
-            style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
-            <MonoText>screens/HomeScreen.js</MonoText>
-          </View>
-
-          <Text style={styles.getStartedText}>
-            Change this text and your app will automatically reload.
-          </Text>
-        </View>
-
-        <View style={styles.helpContainer}>
-          <TouchableOpacity onPress={handleHelpPress} style={styles.helpLink}>
-            <Text style={styles.helpLinkText}>
-              Help, it didn’t automatically reload!
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-
-      <View style={styles.tabBarInfoContainer}>
-        <Text style={styles.tabBarInfoText}>
-          This is a tab bar. You can edit it in:
-        </Text>
-
-        <View
-          style={[styles.codeHighlightContainer, styles.navigationFilename]}>
-          <MonoText style={styles.codeHighlightText}>
-            navigation/MainTabNavigator.js
-          </MonoText>
-        </View>
-      </View>
+        <FlatList
+        data={DATA}
+        renderItem={({ item }) => <Item Name={item.Name} Price={item.Price} Description={item.Description}/>}
+        keyExtractor={item => item.Name}
+      />
     </View>
   );
 }
@@ -195,4 +228,21 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#2e78b7',
   },
+  header: {
+    //  flex:1, 
+      justifyContent: 'center',
+      alignSelf: 'center',
+      fontSize: 30
+    },
+  
+    investmentName: {
+      fontSize: 32,
+    },
+  
+    item: {
+      backgroundColor: '#837CDC',
+      padding: 20,
+      marginVertical: 8,
+      marginHorizontal: 16,
+    },
 });

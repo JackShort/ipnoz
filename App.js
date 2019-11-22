@@ -1,134 +1,62 @@
-import * as React from 'react';
-import { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Button, Alert, FlatList, TouchableHighlight} from 'react-native';
-import Constants from 'expo-constants';
-import { LinearGradient } from 'expo-linear-gradient';
-import moment from "moment";
+import { AppLoading } from 'expo';
+import { Asset } from 'expo-asset';
+import * as Font from 'expo-font';
+import React, { useState } from 'react';
+import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
-//Keep the data at the highest level and then 
-//have it flow to lower sub components. 
+ import AppNavigator from './navigation/AppNavigator';
 
-const DATA = [
-  {
-    Name: 'Investment 1',
-    Price: '$1',
-    Description: "Test Description"
-  },
-  {
-    Name: 'Investment 2',
-    Price: '$2',
-    Description: "Test Description"
-  },
-  {
-    Name: 'Investment 3',
-    Price: '$3',
-    Description: "Test Description"
-  },
+ export default function App(props) {
+  const [isLoadingComplete, setLoadingComplete] = useState(false);
 
-   {
-    Name: 'Investment 4',
-    Price: '$1',
-    Description: "Test Description"
-  },
-  {
-    Name: 'Investment 5',
-    Price: '$2',
-    Description: "Test Description"
-  },
-  {
-    Name: 'Investment 6',
-    Price: '$3',
-    Description: "Test Description"
-  },
-
-   {
-    Name: 'Investment 7',
-    Price: '$1',
-    Description: "Test Description"
-  },
-  {
-    Name: 'Investment 8',
-    Price: '$2',
-    Description: "Test Description"
-  },
-  {
-    Name: 'Investment 9',
-    Price: '$3',
-    Description: "Test Description"
-  },
-
-   {
-    Name: 'Investment 10',
-    Price: '$1',
-    Description: "Test Description"
-  },
-  {
-    Name: 'Investment 11',
-    Price: '$2',
-    Description: "Test Description"
-  },
-  {
-    Name: 'Investment 12',
-    Price: '$3',
-    Description: "Test Description"
-  },
-];
-
-function Item({ Name, Price, Description }) {
-  return (
-    <View style={styles.item}>
-      <TouchableHighlight onPress={(Description) => alert("Description")}> 
-        <Text style={styles.investmentName}>{Name}, {Price} </Text>
-      </TouchableHighlight>
-    </View>
-  );
-}
-
-//converted to functional component 
-export default function App() {
-
+   if (!isLoadingComplete && !props.skipLoadingScreen) {
+    return (
+      <AppLoading
+        startAsync={loadResourcesAsync}
+        onError={handleLoadingError}
+        onFinish={() => handleFinishLoading(setLoadingComplete)}
+      />
+    );
+  } else {
     return (
       <View style={styles.container}>
-      <View style={{height: 40, width: "100%"}}/>
-      <LinearGradient
-          colors={['#FFFFFF', '#D3DAEB', '#FFFFFF']}>
-      <Text style={styles.header}> 
-        Ipnoz Portfolio
-      </Text>
-        <FlatList
-        data={DATA}
-        renderItem={({ item }) => <Item Name={item.Name} Price={item.Price} Description={item.Description}/>}
-        keyExtractor={item => item.Name}
-      />
-      </LinearGradient>
+        {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+        <AppNavigator />
       </View>
     );
+  }
 }
 
-const styles = StyleSheet.create({
+ async function loadResourcesAsync() {
+  await Promise.all([
+    Asset.loadAsync([
+      require('./assets/images/robot-dev.png'),
+      require('./assets/images/robot-prod.png'),
+    ]),
+    Font.loadAsync({
+      // This is the font that we are using for our tab bar
+      ...Ionicons.font,
+      // We include SpaceMono because we use it in HomeScreen.js. Feel free to
+      // remove this if you are not using it in your app
+      'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
+    }),
+  ]);
+}
+
+ function handleLoadingError(error) {
+  // In this case, you might want to report the error to your error reporting
+  // service, for example Sentry
+  console.warn(error);
+}
+
+ function handleFinishLoading(setLoadingComplete) {
+  setLoadingComplete(true);
+}
+
+ const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: "100%",
-    width: "100%",
-    justifyContent: 'flex-center',
-    paddingTop: Constants.statusBarHeight,
-    backgroundColor: 'white',
-  },
-  header: {
-  //  flex:1, 
-    justifyContent: 'center',
-    alignSelf: 'center',
-    fontSize: 30
-  },
-
-  investmentName: {
-    fontSize: 32,
-  },
-
-  item: {
-    backgroundColor: '#837CDC',
-    padding: 20,
-    marginVertical: 8,
-    marginHorizontal: 16,
+    backgroundColor: '#fff',
   },
 });
