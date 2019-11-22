@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button, Alert, FlatList, TouchableHighlight} from 'react-native';
 import Constants from 'expo-constants';
 import { LinearGradient } from 'expo-linear-gradient';
-import moment from "moment";
 
 //Keep the data at the highest level and then 
 //have it flow to lower sub components. 
@@ -110,7 +109,7 @@ const styles = StyleSheet.create({
     flex: 1,
     height: "100%",
     width: "100%",
-    justifyContent: 'flex-center',
+    justifyContent: 'center',
     paddingTop: Constants.statusBarHeight,
     backgroundColor: 'white',
   },
