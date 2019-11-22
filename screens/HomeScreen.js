@@ -91,6 +91,10 @@ function Item({ Name, Price, Description }) {
 }
 
 export default class HomeScreen extends React.Component {
+  static navigationOptions = {
+    title: 'Investment Portfolio',
+  };
+
   render() {
     return (
       <View style={styles.container}>
