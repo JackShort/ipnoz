@@ -5,11 +5,13 @@ import {
   Platform,
   ScrollView,
   StyleSheet,
+  AsyncStorage,
   Text,
   TouchableOpacity,
   View,
   FlatList,
   TouchableHighlight,
+  Button,
 } from 'react-native';
 
 import { MonoText } from '../components/StyledText';
@@ -103,9 +105,16 @@ export default class HomeScreen extends React.Component {
           renderItem={({ item }) => <Item Name={item.Name} Price={item.Price} Description={item.Description}/>}
           keyExtractor={item => item.Name}
         />
+
+        <Button title="Actually, sign me out :)" onPress={this._signOutAsync} />
       </View>
     );
   }
+
+  _signOutAsync = async () => {
+    await AsyncStorage.clear();
+    this.props.navigation.navigate('Auth');
+  };
 }
 
 const styles = StyleSheet.create({
