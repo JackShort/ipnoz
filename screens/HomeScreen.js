@@ -90,55 +90,18 @@ function Item({ Name, Price, Description }) {
   );
 }
 
-export default function HomeScreen() {
-  return (
-    <View style={styles.container}>
-        <FlatList
-        data={DATA}
-        renderItem={({ item }) => <Item Name={item.Name} Price={item.Price} Description={item.Description}/>}
-        keyExtractor={item => item.Name}
-      />
-    </View>
-  );
-}
-
-HomeScreen.navigationOptions = {
-  header: null,
-};
-
-function DevelopmentModeNotice() {
-  if (__DEV__) {
-    const learnMoreButton = (
-      <Text onPress={handleLearnMorePress} style={styles.helpLinkText}>
-        Learn more
-      </Text>
-    );
-
+export default class HomeScreen extends React.Component {
+  render() {
     return (
-      <Text style={styles.developmentModeText}>
-        Development mode is enabled: your app will be slower but you can use
-        useful development tools. {learnMoreButton}
-      </Text>
-    );
-  } else {
-    return (
-      <Text style={styles.developmentModeText}>
-        You are not in development mode: your app will run at full speed.
-      </Text>
+      <View style={styles.container}>
+          <FlatList
+          data={DATA}
+          renderItem={({ item }) => <Item Name={item.Name} Price={item.Price} Description={item.Description}/>}
+          keyExtractor={item => item.Name}
+        />
+      </View>
     );
   }
-}
-
-function handleLearnMorePress() {
-  WebBrowser.openBrowserAsync(
-    'https://docs.expo.io/versions/latest/workflow/development-mode/'
-  );
-}
-
-function handleHelpPress() {
-  WebBrowser.openBrowserAsync(
-    'https://docs.expo.io/versions/latest/workflow/up-and-running/#cant-see-your-changes'
-  );
 }
 
 const styles = StyleSheet.create({
