@@ -8,104 +8,100 @@ import {
   Text,
   TouchableOpacity,
   View,
+  FlatList,
+  TouchableHighlight,
 } from 'react-native';
 
 import { MonoText } from '../components/StyledText';
 
-export default function HomeScreen() {
+const DATA = [
+  {
+    Name: 'Investment 1',
+    Price: '$1',
+    Description: "Test Description"
+  },
+  {
+    Name: 'Investment 2',
+    Price: '$2',
+    Description: "Test Description"
+  },
+  {
+    Name: 'Investment 3',
+    Price: '$3',
+    Description: "Test Description"
+  },
+
+   {
+    Name: 'Investment 4',
+    Price: '$1',
+    Description: "Test Description"
+  },
+  {
+    Name: 'Investment 5',
+    Price: '$2',
+    Description: "Test Description"
+  },
+  {
+    Name: 'Investment 6',
+    Price: '$3',
+    Description: "Test Description"
+  },
+
+   {
+    Name: 'Investment 7',
+    Price: '$1',
+    Description: "Test Description"
+  },
+  {
+    Name: 'Investment 8',
+    Price: '$2',
+    Description: "Test Description"
+  },
+  {
+    Name: 'Investment 9',
+    Price: '$3',
+    Description: "Test Description"
+  },
+
+   {
+    Name: 'Investment 10',
+    Price: '$1',
+    Description: "Test Description"
+  },
+  {
+    Name: 'Investment 11',
+    Price: '$2',
+    Description: "Test Description"
+  },
+  {
+    Name: 'Investment 12',
+    Price: '$3',
+    Description: "Test Description"
+  },
+];
+
+function Item({ Name, Price, Description }) {
   return (
-    <View style={styles.container}>
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={styles.contentContainer}>
-        <View style={styles.welcomeContainer}>
-          <Image
-            source={
-              __DEV__
-                ? require('../assets/images/robot-dev.png')
-                : require('../assets/images/robot-prod.png')
-            }
-            style={styles.welcomeImage}
-          />
-        </View>
-
-        <View style={styles.getStartedContainer}>
-          <DevelopmentModeNotice />
-
-          <Text style={styles.getStartedText}>Get started by opening</Text>
-
-          <View
-            style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
-            <MonoText>screens/HomeScreen.js</MonoText>
-          </View>
-
-          <Text style={styles.getStartedText}>
-            Change this text and your app will automatically reload.
-          </Text>
-        </View>
-
-        <View style={styles.helpContainer}>
-          <TouchableOpacity onPress={handleHelpPress} style={styles.helpLink}>
-            <Text style={styles.helpLinkText}>
-              Help, it didn’t automatically reload!
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-
-      <View style={styles.tabBarInfoContainer}>
-        <Text style={styles.tabBarInfoText}>
-          This is a tab bar. You can edit it in:
-        </Text>
-
-        <View
-          style={[styles.codeHighlightContainer, styles.navigationFilename]}>
-          <MonoText style={styles.codeHighlightText}>
-            navigation/MainTabNavigator.js
-          </MonoText>
-        </View>
-      </View>
+    <View style={styles.item}>
+      <TouchableHighlight onPress={(Description) => alert("Description")}> 
+        <Text style={styles.investmentName}>{Name}, {Price} </Text>
+      </TouchableHighlight>
     </View>
   );
 }
 
-HomeScreen.navigationOptions = {
-  header: null,
-};
-
-function DevelopmentModeNotice() {
-  if (__DEV__) {
-    const learnMoreButton = (
-      <Text onPress={handleLearnMorePress} style={styles.helpLinkText}>
-        Learn more
-      </Text>
-    );
-
+export default class HomeScreen extends React.Component {
+  render() {
     return (
-      <Text style={styles.developmentModeText}>
-        Development mode is enabled: your app will be slower but you can use
-        useful development tools. {learnMoreButton}
-      </Text>
-    );
-  } else {
-    return (
-      <Text style={styles.developmentModeText}>
-        You are not in development mode: your app will run at full speed.
-      </Text>
+      <View style={styles.container}>
+          <FlatList
+          data={DATA}
+          renderItem={({ item }) => <Item Name={item.Name} Price={item.Price} Description={item.Description}/>}
+          keyExtractor={item => item.Name}
+        />
+      </View>
     );
   }
-}
-
-function handleLearnMorePress() {
-  WebBrowser.openBrowserAsync(
-    'https://docs.expo.io/versions/latest/workflow/development-mode/'
-  );
-}
-
-function handleHelpPress() {
-  WebBrowser.openBrowserAsync(
-    'https://docs.expo.io/versions/latest/workflow/up-and-running/#cant-see-your-changes'
-  );
 }
 
 const styles = StyleSheet.create({
@@ -195,4 +191,21 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#2e78b7',
   },
+  header: {
+    //  flex:1, 
+      justifyContent: 'center',
+      alignSelf: 'center',
+      fontSize: 30
+    },
+  
+    investmentName: {
+      fontSize: 32,
+    },
+  
+    item: {
+      backgroundColor: '#837CDC',
+      padding: 20,
+      marginVertical: 8,
+      marginHorizontal: 16,
+    },
 });
