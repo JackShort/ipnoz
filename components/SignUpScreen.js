@@ -46,9 +46,10 @@ if (!firebase.apps.length) {
 }
 const db = firebase.firestore();
 
-export default class SignInScreen extends React.Component {
+export default class SignUpScreen extends React.Component {
     static navigationOptions = {
-      title: 'Please sign in',
+      title: 'Create an Account',
+      headerLeft: null
     };
   
     render() {
@@ -59,22 +60,28 @@ export default class SignInScreen extends React.Component {
           type={User} 
           options={options}
           />
-          <Button title="Sign in!" onPress={this._signInAsync} />
-          <Button title="Don't have an account? Create one here!" onPress={() => this.props.navigation.navigate('SignUp')} />
+          <Button title="Create Account!" onPress={this._createAccountAsync} />
+          <Button title="Already have an account? Sign in here!" onPress={() => this.props.navigation.navigate('SignIn')} />
         </View>
       );
     }
   
-    _signInAsync = async () => {
+    _createAccountAsync = async () => {
       const value = this._form.getValue(); // use that ref to get the form value
       const nav = this.props.navigation;
       if (value) {
-        db.collection('users').where("username", "==", value["username"]).where("password", "==", value["password"])
+        db.collection('users').where("username", "==", value["username"])
         .get()
         .then(function(querySnapshot) {
-          if (!querySnapshot.empty) {
-            AsyncStorage.setItem('userToken', 'abc');
-            nav.navigate('App');
+          if (querySnapshot.empty) {
+            db.collection('users').add({
+              username: value["username"],
+              password: value["password"]
+            })
+            .then(function(docRef) {
+              AsyncStorage.setItem('userToken', 'abc');
+              nav.navigate('App');
+            });
           }
         })
       }
