@@ -73,7 +73,7 @@ export default class SignInScreen extends React.Component {
         .get()
         .then(function(querySnapshot) {
           if (!querySnapshot.empty) {
-            AsyncStorage.setItem('userToken', 'abc');
+            AsyncStorage.setItem('userToken', value["username"]);
             nav.navigate('App');
           }
         })

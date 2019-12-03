@@ -8,9 +8,10 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Button,
 } from 'react-native';
 
-export default function SettingsScreen() {
+export default function SettingsScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.top}>
@@ -48,7 +49,7 @@ export default function SettingsScreen() {
             </View>
       </ScrollView>
       <View style={styles.money} >
-        <Text style={styles.subText}>Add more money</Text>
+        <Button title="Add more money" onPress={() => navigation.navigate('Money')}/>
       </View>
     </View>
   );

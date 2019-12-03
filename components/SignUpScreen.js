@@ -76,10 +76,11 @@ export default class SignUpScreen extends React.Component {
           if (querySnapshot.empty) {
             db.collection('users').add({
               username: value["username"],
-              password: value["password"]
+              password: value["password"],
+              money: 0
             })
             .then(function(docRef) {
-              AsyncStorage.setItem('userToken', 'abc');
+              AsyncStorage.setItem('userToken', value["username"]);
               nav.navigate('App');
             });
           }
