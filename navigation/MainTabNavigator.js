@@ -6,6 +6,7 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import MoneyScreen from '../screens/MoneyScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -54,6 +55,7 @@ LinksStack.path = '';
 const SettingsStack = createStackNavigator(
   {
     Settings: SettingsScreen,
+    Money: MoneyScreen,
   },
   config
 );
