@@ -11,7 +11,7 @@ import {
   View,
   Button
 } from "react-native";
-import Stripe from "react-native-stripe-api";
+import Stripe from '../components/Stripe';;
 
 import { firebase } from "@firebase/app";
 import "@firebase/firestore";
@@ -49,6 +49,9 @@ const options = {
   }
 };
 
+const REQM = ' is required';
+const STRIPE_URL = 'https://api.stripe.com/v1/';
+
 
 export default class CardScreen extends React.Component {
   static navigationOptions = {
@@ -72,7 +75,7 @@ export default class CardScreen extends React.Component {
         .then(function(querySnapshot) {
           var money;
           querySnapshot.forEach(function(doc) {
-            that.setState({ money: doc.data()["money"] });
+            that.setState({ money: 0 });
           });
         });
     });
@@ -83,36 +86,31 @@ export default class CardScreen extends React.Component {
       <View style={styles.container}>
         <View style={styles.money}>
           <Button title="Add" onPress={this._addMoneyAsync} />
+          <Text style={styles.moneyText}>${this.state.money}</Text>
+
         </View>
       </View>
     );
   }
 
+  
+  
   _addMoneyAsync = async () => {
     const apiKey = "sk_test_YTNaU7ltaRo9DMKYYxqr6g3s00yCuz7Znv";
-    const client = new Stripe(apiKey);
+const client = new Stripe(apiKey);
 
-    const token = await client.createToken({
-        cardNumber: "4242424242424242",
-      expMonth: "09",
-      expYear: "20",
-      cvc: "111",
-    });
-    
-    const customer = await client.createCustomer(
-      token.id,
-      "customer@email.com",
-      "<Your user ID>",
-      "John",
-      "Doe"
-    );
+// Create a Stripe token with new card infos
+const token = await client.createToken('4242424242424242' , '09', '22', '111');
+
+// Create a new customer and link your new card
+const customer = await client.createCustomer(token.id, 'customer@email.com', '<Your user ID>', 'John', 'Doe');
+
+// Create charge, 1 USD
+const charge = await client.createCharge(1 * 100, customer.id, 'Payment example','USD');
+
+this.setState({money: charge.amount});
 
     
-
-    const charge = await client.createCharge(1 * 100, customer.id, 'Payment example','USD');
-    Alert.alert(
-        charge
-     )
   };
 }
 
