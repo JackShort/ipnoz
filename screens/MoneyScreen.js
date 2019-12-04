@@ -11,6 +11,10 @@ import {
     View,
     Button
 } from "react-native";
+import Stripe from 'react-native-stripe-api';
+
+
+
 
 import { firebase } from '@firebase/app';
 import '@firebase/firestore';
@@ -47,6 +51,7 @@ const options = {
         }
     }
 };
+
 
 export default class MoneyScreen extends React.Component {
     static navigationOptions = {

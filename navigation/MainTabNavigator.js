@@ -7,6 +7,9 @@ import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import MoneyScreen from '../screens/MoneyScreen';
+import CardScreen from '../screens/CardScreen';
+
+import InvestmentScreen from '../screens/InvestmentScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -16,6 +19,7 @@ const config = Platform.select({
 const HomeStack = createStackNavigator(
   {
     Home: HomeScreen,
+    Investment: InvestmentScreen,
   },
   config
 );
@@ -56,12 +60,13 @@ const SettingsStack = createStackNavigator(
   {
     Settings: SettingsScreen,
     Money: MoneyScreen,
+    Card: CardScreen
   },
   config
 );
 
 SettingsStack.navigationOptions = {
-  tabBarLabel: 'Settings',
+  tabBarLabel: 'Profile',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
   ),
@@ -71,7 +76,6 @@ SettingsStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
-  LinksStack,
   SettingsStack,
 });
 

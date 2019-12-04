@@ -18,76 +18,43 @@ import { MonoText } from '../components/StyledText';
 
 const DATA = [
   {
-    Name: 'Investment 1',
-    Price: '$1',
-    Description: "Test Description"
+    Name: 'RussFest',
+    Goal: '6.9 trillion',
   },
   {
-    Name: 'Investment 2',
-    Price: '$2',
-    Description: "Test Description"
+    Name: 'North Carolina Real Estate',
+    Goal: '1.6 million',
   },
   {
-    Name: 'Investment 3',
-    Price: '$3',
-    Description: "Test Description"
+    Name: 'Blackrock Aggressive Fund',
+    Goal: '$2',
+  },
+  {
+    Name: 'Chickpea Investment Fund',
+    Goal: '$3',
   },
 
    {
-    Name: 'Investment 4',
-    Price: '$1',
-    Description: "Test Description"
+    Name: 'WeWork',
+    Goal: 'Literally all of your money',
   },
-  {
-    Name: 'Investment 5',
-    Price: '$2',
-    Description: "Test Description"
-  },
+  
   {
     Name: 'Investment 6',
-    Price: '$3',
-    Description: "Test Description"
-  },
-
-   {
-    Name: 'Investment 7',
-    Price: '$1',
-    Description: "Test Description"
-  },
-  {
-    Name: 'Investment 8',
-    Price: '$2',
-    Description: "Test Description"
-  },
-  {
-    Name: 'Investment 9',
-    Price: '$3',
-    Description: "Test Description"
-  },
-
-   {
-    Name: 'Investment 10',
-    Price: '$1',
-    Description: "Test Description"
-  },
-  {
-    Name: 'Investment 11',
-    Price: '$2',
-    Description: "Test Description"
-  },
-  {
-    Name: 'Investment 12',
-    Price: '$3',
-    Description: "Test Description"
-  },
+    Goal: '$3',
+  }
 ];
 
-function Item({ Name, Price, Description }) {
+function Item({ Name, Goal, navigate}) {
+  
   return (
     <View style={styles.item}>
-      <TouchableHighlight onPress={(Description) => alert("Description")}> 
-        <Text style={styles.investmentName}>{Name}, {Price} </Text>
-      </TouchableHighlight>
+       <TouchableOpacity  style={styles.investGroup} onPress={() => navigate.navigate('Investment')} > 
+        <View>
+          <Text style={styles.investmentName}>{Name}</Text>
+          <Text style={styles.investmentName}>Goal: {Goal}</Text>
+        </View>
+      </TouchableOpacity> 
     </View>
   );
 }
@@ -98,11 +65,12 @@ export default class HomeScreen extends React.Component {
   };
 
   render() {
+
     return (
       <View style={styles.container}>
           <FlatList
           data={DATA}
-          renderItem={({ item }) => <Item Name={item.Name} Price={item.Price} Description={item.Description}/>}
+          renderItem={({ item }) => <Item Name={item.Name} Goal={item.Goal} navigate = {this.props.navigation} />}
           keyExtractor={item => item.Name}
         />
 
@@ -212,13 +180,19 @@ const styles = StyleSheet.create({
     },
   
     investmentName: {
-      fontSize: 32,
+      fontFamily: 'Helvetica',
+      fontSize: 16,
     },
+    investGroup: {
+     
+          },
   
     item: {
-      backgroundColor: '#837CDC',
       padding: 20,
       marginVertical: 8,
       marginHorizontal: 16,
+      borderRadius: 10,
+      borderWidth: 3,
+      borderColor: '#8c90c3',
     },
 });
