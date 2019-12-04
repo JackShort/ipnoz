@@ -1,111 +1,87 @@
 import * as WebBrowser from 'expo-web-browser';
 import React from 'react';
+import Shaker from '../components/shaker.js';
 import {
   Image,
   Platform,
   ScrollView,
   StyleSheet,
+  AsyncStorage,
   Text,
   TouchableOpacity,
   View,
+  FlatList,
+  TouchableHighlight,
+  Button,
 } from 'react-native';
 
 import { MonoText } from '../components/StyledText';
 
-export default function HomeScreen() {
+const DATA = [
+  {
+    Name: 'RussFest',
+    Goal: '6.9 trillion',
+  },
+  {
+    Name: 'North Carolina Real Estate',
+    Goal: '1.6 million',
+  },
+  {
+    Name: 'Blackrock Aggressive Fund',
+    Goal: '$2',
+  },
+  {
+    Name: 'Chickpea Investment Fund',
+    Goal: '$3',
+  },
+
+   {
+    Name: 'WeWork',
+    Goal: 'Literally all of your money',
+  },
+  
+  {
+    Name: 'Investment 6',
+    Goal: '$3',
+  }
+];
+
+function Item({ Name, Goal, navigate}) {
+  
   return (
-    <View style={styles.container}>
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={styles.contentContainer}>
-        <View style={styles.welcomeContainer}>
-          <Image
-            source={
-              __DEV__
-                ? require('../assets/images/robot-dev.png')
-                : require('../assets/images/robot-prod.png')
-            }
-            style={styles.welcomeImage}
-          />
+    <View style={styles.item}>
+       <TouchableOpacity  style={styles.investGroup} onPress={() => navigate.navigate('Investment')} > 
+        <View>
+          <Text style={styles.investmentName}>{Name}</Text>
+          <Text style={styles.investmentName}>Goal: {Goal}</Text>
         </View>
-
-        <View style={styles.getStartedContainer}>
-          <DevelopmentModeNotice />
-
-          <Text style={styles.getStartedText}>Get started by opening</Text>
-
-          <View
-            style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
-            <MonoText>screens/HomeScreen.js</MonoText>
-          </View>
-
-          <Text style={styles.getStartedText}>
-            Change this text and your app will automatically reload.
-          </Text>
-        </View>
-
-        <View style={styles.helpContainer}>
-          <TouchableOpacity onPress={handleHelpPress} style={styles.helpLink}>
-            <Text style={styles.helpLinkText}>
-              Help, it didn’t automatically reload!
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-
-      <View style={styles.tabBarInfoContainer}>
-        <Text style={styles.tabBarInfoText}>
-          This is a tab bar. You can edit it in:
-        </Text>
-
-        <View
-          style={[styles.codeHighlightContainer, styles.navigationFilename]}>
-          <MonoText style={styles.codeHighlightText}>
-            navigation/MainTabNavigator.js
-          </MonoText>
-        </View>
-      </View>
+      </TouchableOpacity> 
     </View>
   );
 }
 
-HomeScreen.navigationOptions = {
-  header: null,
-};
-
-function DevelopmentModeNotice() {
-  if (__DEV__) {
-    const learnMoreButton = (
-      <Text onPress={handleLearnMorePress} style={styles.helpLinkText}>
-        Learn more
-      </Text>
-    );
-
+export default class HomeScreen extends React.Component {
+  static navigationOptions = {
+    title: 'Investment Portfolio',
+  };
+  render() {
     return (
-      <Text style={styles.developmentModeText}>
-        Development mode is enabled: your app will be slower but you can use
-        useful development tools. {learnMoreButton}
-      </Text>
-    );
-  } else {
-    return (
-      <Text style={styles.developmentModeText}>
-        You are not in development mode: your app will run at full speed.
-      </Text>
+      <View style={styles.container}>
+          <FlatList
+          data={DATA}
+          renderItem={({ item }) => <Item Name={item.Name} Goal={item.Goal} navigate = {this.props.navigation} />}
+          keyExtractor={item => item.Name}
+          />
+          <Shaker />
+        <Button title="Sign out" onPress={this._signOutAsync} />
+      </View>
     );
   }
-}
 
-function handleLearnMorePress() {
-  WebBrowser.openBrowserAsync(
-    'https://docs.expo.io/versions/latest/workflow/development-mode/'
-  );
-}
-
-function handleHelpPress() {
-  WebBrowser.openBrowserAsync(
-    'https://docs.expo.io/versions/latest/workflow/up-and-running/#cant-see-your-changes'
-  );
+  _signOutAsync = async () => {
+    await AsyncStorage.clear();
+    this.props.navigation.navigate('Auth');
+  };
 }
 
 const styles = StyleSheet.create({
@@ -195,4 +171,27 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#2e78b7',
   },
+  header: {
+    //  flex:1, 
+      justifyContent: 'center',
+      alignSelf: 'center',
+      fontSize: 30
+    },
+  
+    investmentName: {
+      fontFamily: 'Helvetica',
+      fontSize: 16,
+    },
+    investGroup: {
+     
+          },
+  
+    item: {
+      padding: 20,
+      marginVertical: 8,
+      marginHorizontal: 16,
+      borderRadius: 10,
+      borderWidth: 3,
+      borderColor: '#8c90c3',
+    },
 });
