@@ -13,6 +13,7 @@ import {
 } from "react-native";
 
 import RNShake from 'react-native-shake';
+import ShakeEventExpo from '../components/ShakeEventExpo';
 
 export default class InvestmentScreen extends React.Component {
   static navigationOptions = {
@@ -27,16 +28,15 @@ export default class InvestmentScreen extends React.Component {
   componentWillMount() {
     console.log("hey")
     RNShake.addEventListener('ShakeEvent', () => {
-      this.setState({money: "100"});
+
+      console.log('Shake Shake Shake');
     });
   }
   componentWillUnmount() {
-    RNShake.removeEventListener('ShakeEvent');
+    RNShake.removeEventListener();
   }
   render() {
-    RNShake.addEventListener('ShakeEvent', () => {
-      this.setState({money: "100"});
-    });
+    
     return (
       <View style={styles.container}>
         <View>
