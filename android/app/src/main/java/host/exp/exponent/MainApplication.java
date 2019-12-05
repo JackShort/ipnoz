@@ -13,6 +13,10 @@ import okhttp3.OkHttpClient;
 
 // Needed for `react-native link`
 // import com.facebook.react.ReactApplication;
+import com.tkporter.sendsms.SendSMSPackage;
+import com.gettipsi.stripe.StripeReactPackage;
+import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
+import cl.json.RNSharePackage;
 import com.clipsub.RNShake.RNShakeEventPackage;
 
 public class MainApplication extends ExpoApplication implements AppLoaderPackagesProviderInterface<ReactPackage> {
@@ -30,6 +34,10 @@ public class MainApplication extends ExpoApplication implements AppLoaderPackage
 
         // Needed for `react-native link`
         // new MainReactPackage(),
+            SendSMSPackage.getInstance(),
+            new StripeReactPackage(),
+            new RNGestureHandlerPackage(),
+            new RNSharePackage(),
             new RNShakeEventPackage()
     );
   }

@@ -8,11 +8,13 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Button,
   AsyncStorage
 } from "react-native";
+import { Card, Button } from "react-native-material-ui";
+
 
 export default function SettingsScreen({ navigation }) {
+ 
   return (
     <View style={styles.container}>
       <View style={styles.top}>
@@ -50,22 +52,29 @@ export default function SettingsScreen({ navigation }) {
           <Text style={styles.investTextEndGood}>$290123</Text>
         </View>
       </ScrollView>
-      <View style={styles.money}>
         <Button
           backgroundColor="red"
           title="Add more money"
+          text="Add more money"
+
           onPress={() => navigation.navigate("Money")}
         />
-      </View>
+        <Button title="Sign out"  text="Sign Out" onPress={this._signOutAsync} />
+
+
       <View style={styles.money}>
         <Button
           backgroundColor="red"
           title="Add a card"
+          text="Add a card"
+
           onPress={() => navigation.navigate("Card")}
         />
       </View>
     </View>
   );
+
+  
 }
 
 SettingsScreen.navigationOptions = {
