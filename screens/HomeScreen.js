@@ -13,6 +13,8 @@ import {
   TouchableHighlight,
   Button,
 } from 'react-native';
+import { ListItem } from 'react-native-material-ui';
+
 
 import { MonoText } from '../components/StyledText';
 
@@ -20,6 +22,10 @@ const DATA = [
   {
     Name: 'RussFest',
     Goal: '6.9 trillion',
+  },
+  {
+    Name: 'WeWork',
+    Goal: 'Literally all of your money',
   },
   {
     Name: 'North Carolina Real Estate',
@@ -34,10 +40,7 @@ const DATA = [
     Goal: '$3',
   },
 
-   {
-    Name: 'WeWork',
-    Goal: 'Literally all of your money',
-  },
+   
   
   {
     Name: 'Investment 6',
@@ -46,15 +49,20 @@ const DATA = [
 ];
 
 function Item({ Name, Goal, navigate}) {
-  
+  const a = {Name}['Name']
+  const b = {Goal}['Goal']
+
   return (
-    <View style={styles.item}>
-       <TouchableOpacity  style={styles.investGroup} onPress={() => navigate.navigate('Investment')} > 
-        <View>
-          <Text style={styles.investmentName}>{Name}</Text>
-          <Text style={styles.investmentName}>Goal: {Goal}</Text>
-        </View>
-      </TouchableOpacity> 
+    <View >
+      <ListItem
+        divider
+        centerElement={{
+          primaryText: a,
+          secondaryText : b,
+        }}
+        onPress={() => {navigate.navigate(a)}}
+      />
+      
     </View>
   );
 }

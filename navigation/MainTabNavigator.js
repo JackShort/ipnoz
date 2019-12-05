@@ -8,6 +8,10 @@ import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import MoneyScreen from '../screens/MoneyScreen';
 import CardScreen from '../screens/CardScreen';
+import RussFest from '../screens/RussFest';
+import WeWork from '../screens/WeWork';
+
+
 
 import InvestmentScreen from '../screens/InvestmentScreen';
 
@@ -20,6 +24,8 @@ const HomeStack = createStackNavigator(
   {
     Home: HomeScreen,
     Investment: InvestmentScreen,
+    RussFest: RussFest,
+    WeWork: WeWork,
   },
   config
 );
@@ -61,6 +67,7 @@ const SettingsStack = createStackNavigator(
     Settings: SettingsScreen,
     Money: MoneyScreen,
     Card: CardScreen
+    
   },
   config
 );
