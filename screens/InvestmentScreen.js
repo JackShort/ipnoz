@@ -12,11 +12,22 @@ import {
   Button
 } from "react-native";
 
+import RNShake from 'react-native-shake';
+import ShakeEventExpo from '../components/ShakeEventExpo';
+
 export default class InvestmentScreen extends React.Component {
   static navigationOptions = {
     title: "Investment Portfolio"
   };
+  constructor(props) {
+    super(props);
+    this.state = {
+      money: 0
+    };
+  }
+ 
   render() {
+    
     return (
       <View style={styles.container}>
         <View>
@@ -31,57 +42,8 @@ export default class InvestmentScreen extends React.Component {
           />
         </View>
         <ScrollView>
-          <Text>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Nullam
-            non nisi est sit amet. Ut sem viverra aliquet eget. Quis enim
-            lobortis scelerisque fermentum dui faucibus in. Nibh venenatis cras
-            sed felis eget velit aliquet. Vitae justo eget magna fermentum
-            iaculis. Ultricies tristique nulla aliquet enim tortor at auctor
-            urna. Urna porttitor rhoncus dolor purus non enim praesent
-            elementum. Vel elit scelerisque mauris pellentesque pulvinar. Vel
-            elit scelerisque mauris pellentesque pulvinar pellentesque habitant.
-            Lobortis feugiat vivamus at augue eget. Enim eu turpis egestas
-            pretium aenean pharetra magna. Iaculis urna id volutpat lacus
-            laoreet non curabitur gravida arcu. Nec sagittis aliquam malesuada
-            bibendum arcu vitae elementum. Nunc sed augue lacus viverra vitae
-            congue eu consequat ac. Ullamcorper eget nulla facilisi etiam. Fusce
-            ut placerat orci nulla pellentesque dignissim enim sit. Id interdum
-            velit laoreet id donec ultrices tincidunt arcu. Ac placerat
-            vestibulum lectus mauris ultrices eros. Lectus magna fringilla urna
-            porttitor rhoncus dolor purus non. Adipiscing bibendum est ultricies
-            integer quis auctor elit sed vulputate. Quam pellentesque nec nam
-            aliquam sem et tortor consequat. Sit amet risus nullam eget felis
-            eget nunc lobortis mattis. Turpis egestas maecenas pharetra
-            convallis posuere morbi. Dictum fusce ut placerat orci nulla.
-            Pellentesque diam volutpat commodo sed egestas egestas fringilla.
-            Interdum velit euismod in pellentesque massa placerat duis ultricies
-            lacus. Fringilla est ullamcorper eget nulla facilisi etiam
-            dignissim. Pretium nibh ipsum consequat nisl vel pretium lectus.
-            Cursus mattis molestie a iaculis at erat pellentesque adipiscing
-            commodo. Nisi quis eleifend quam adipiscing vitae. Est pellentesque
-            elit ullamcorper dignissim. Senectus et netus et malesuada fames ac
-            turpis egestas. Lectus arcu bibendum at varius vel pharetra. Turpis
-            in eu mi bibendum neque egestas congue quisque egestas. Massa
-            tincidunt dui ut ornare lectus. Orci nulla pellentesque dignissim
-            enim sit amet venenatis urna. In nibh mauris cursus mattis molestie
-            a iaculis at erat. Auctor eu augue ut lectus. Risus pretium quam
-            vulputate dignissim suspendisse. Magna sit amet purus gravida quis
-            blandit. Integer quis auctor elit sed vulputate mi sit amet mauris.
-            Consequat mauris nunc congue nisi vitae suscipit. Dui sapien eget mi
-            proin sed libero enim sed. Est velit egestas dui id ornare arcu.
-            Integer eget aliquet nibh praesent tristique magna sit. Eget magna
-            fermentum iaculis eu. Sed sed risus pretium quam. Fermentum iaculis
-            eu non diam phasellus vestibulum lorem. In vitae turpis massa sed
-            elementum tempus egestas. Adipiscing elit duis tristique
-            sollicitudin nibh sit amet. Turpis tincidunt id aliquet risus
-            feugiat. Dignissim sodales ut eu sem integer. Nisi est sit amet
-            facilisis magna etiam tempor orci. Sed adipiscing diam donec
-            adipiscing tristique. Sit amet consectetur adipiscing elit
-            pellentesque habitant morbi tristique. Ridiculus mus mauris vitae
-            ultricies leo integer malesuada. Imperdiet nulla malesuada
-            pellentesque elit eget gravida cum.
-          </Text>
+        <Text style={styles.moneyText}>Russ Hanneman (played by Chris Diamantopoulos), the embodiment of an Affliction model-meets-dot com mogul, comes to Pied Piper’s rescue by offering them the chance to design the network for his eponymous celebration of leather pants, vanity tequila and Puddle of Mudd. RussFest aims to be everything people hoped the doomed Fyre Festival would be, and everything original Burners hate about how their festival has changed.</Text>
+
         </ScrollView>
         <View style={styles.investGroup}>
           <Button

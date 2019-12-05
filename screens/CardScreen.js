@@ -1,174 +1,172 @@
-import React from "react";
-import { ExpoConfigView } from "@expo/samples";
+import React from 'react';
 import {
-  Image,
-  Platform,
-  AsyncStorage,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  Button
+  AsyncStorage
 } from "react-native";
-import Stripe from "react-native-stripe-api";
+import Stripe from '../components/Stripe';;
 
-import { firebase } from "@firebase/app";
-import "@firebase/firestore";
-import { parse } from "qs";
+import AddSubscriptionView from '../components/AddSubscriptionView';
+const STRIPE_ERROR = 'Payment service error. Try again later.';
+const SERVER_ERROR = 'Server error. Try again later.';
+const STRIPE_PUBLISHABLE_KEY =  "sk_test_YTNaU7ltaRo9DMKYYxqr6g3s00yCuz7Znv";
+const client = new Stripe(STRIPE_PUBLISHABLE_KEY);
+
+import { firebase } from '@firebase/app';
+import '@firebase/firestore';
+import { parse } from 'qs';
 const firebaseConfig = {
   apiKey: "AIzaSyDeC0z-nYBAquUosqYmQ31m0m4KeWRd7rk",
   authDomain: "ipnoz-6d6b3.firebaseapp.com",
   databaseURL: "ipnoz-6d6b3.firebaseio.com",
   projectId: "ipnoz-6d6b3",
-  storageBucket: "ipnoz-6d6b3.appspot.com"
-};
+  storageBucket: "ipnoz-6d6b3.appspot.com",
+}
 
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
 const db = firebase.firestore();
 
-import t from "tcomb-form-native";
 
-const Form = t.form.Form;
 
-var Positive = t.refinement(t.Number, function(n) {
-  return n >= 0;
-});
+/**
+ * The method sends HTTP requests to the Stripe API.
+ * It's necessary to manually send the payment data
+ * to Stripe because using Stripe Elements in React 
+ * Native apps isn't possible.
+ *
+ * @param creditCardData the credit card data
+ * @return Promise with the Stripe data
+ */
+const getCreditCardToken = (creditCardData) => {
+  const card = {
+    'card[number]': creditCardData.values.number.replace(/ /g, ''),
+    'card[exp_month]': creditCardData.values.expiry.split('/')[0],
+    'card[exp_year]': creditCardData.values.expiry.split('/')[1],
+    'card[cvc]': creditCardData.values.cvc
+  };
+  return fetch('https://api.stripe.com/v1/tokens', {
+    headers: {
+      // Use the correct MIME type for your server
+      Accept: 'application/json',
+      // Use the correct Content Type to send data to Stripe
+      'Content-Type': 'application/x-www-form-urlencoded',
+      // Use the Stripe publishable key as Bearer
+      Authorization: `Bearer ${STRIPE_PUBLISHABLE_KEY}`
+    },
+    // Use a proper HTTP method
+    method: 'post',
+    // Format the credit card data to a string of key-value pairs
+    // divided by &
+    body: Object.keys(card)
+      .map(key => key + '=' + card[key])
+      .join('&')
+  }).then(response => response.json());
 
-const Money = t.struct({
-  value: Positive
-});
-
-const options = {
-  fields: {
-    value: {
-      error: "Please enter an amount"
-    }
-  }
 };
 
+_doPayment = async (tokenID) => {
 
+  console.log("hi")
+  const customer = await client.createCustomer(tokenID, 'customer@email.com', '<Your user ID>', 'John', 'Doe');
+
+// Create charge, 1 USD
+const charge = await client.createCharge(1 * 100, customer.id, 'Payment example','USD');
+console.log(charge.id)
+
+}
+
+_addTokenSync = async (tokenID) => {
+  var username = await AsyncStorage.getItem("userToken");
+  db.collection('users').where("username", "==", username)
+  .get()
+  .then(function(querySnapshot) {
+      var d = querySnapshot.docs[0];
+      var id = d.id;
+      var money = d.data()["money"];
+      var username = d.data()["username"]
+      var password = d.data()["password"]
+
+      db.collection('users').doc(id).set({
+          username: username,
+          password: password,
+          money: money,
+          token: tokenID,
+      })
+  })
+};
+
+/**
+ * The method imitates a request to our server.
+ *
+ * @param creditCardToken
+ * @return {Promise<Response>}
+ */
+const subscribeUser = (creditCardToken) => {
+  return new Promise((resolve) => {
+    console.log('Credit card token\n', creditCardToken);
+    _doPayment(creditCardToken.id)
+    //Send token to firebase
+    setTimeout(() => {
+      resolve({ status: true });
+    }, 1000)
+  });
+};
+/**
+ * The main class that submits the credit card data and
+ * handles the response from Stripe.
+ */
 export default class CardScreen extends React.Component {
   static navigationOptions = {
-    title: "Add A Card"
+    title: 'Subscription page',
   };
-
   constructor(props) {
     super(props);
     this.state = {
-      money: 0
-    };
+      submitted: false,
+      error: null
+    }
   }
-
-  componentDidMount() {
-    const that = this;
-    AsyncStorage.getItem("userToken", (errs, result) => {
-      console.log(result);
-      db.collection("users")
-        .where("username", "==", result)
-        .get()
-        .then(function(querySnapshot) {
-          var money;
-          querySnapshot.forEach(function(doc) {
-            that.setState({ money: doc.data()["money"] });
-          });
-        });
-    });
-  }
-
-  render() {
-    return (
-      <View style={styles.container}>
-        <View style={styles.money}>
-          <Button title="Add" onPress={this._addMoneyAsync} />
-        </View>
-      </View>
-    );
-  }
-
-  _addMoneyAsync = async () => {
-    const apiKey = "sk_test_YTNaU7ltaRo9DMKYYxqr6g3s00yCuz7Znv";
-    const client = new Stripe(apiKey);
-
-    const token = await client.createToken({
-        cardNumber: "4242424242424242",
-      expMonth: "09",
-      expYear: "20",
-      cvc: "111",
-    });
-    
-    const customer = await client.createCustomer(
-      token.id,
-      "customer@email.com",
-      "<Your user ID>",
-      "John",
-      "Doe"
-    );
-
-    
-
-    const charge = await client.createCharge(1 * 100, customer.id, 'Payment example','USD');
-    Alert.alert(
-        charge
-     )
+  // Handles submitting the payment request
+  onSubmit = async (creditCardInput) => {
+    const { navigation } = this.props;
+    // Disable the Submit button after the request is sent
+    this.setState({ submitted: true });
+    let creditCardToken;
+    try {
+      // Create a credit card token
+      creditCardToken = await getCreditCardToken(creditCardInput);
+      if (creditCardToken.error) {
+        // Reset the state if Stripe responds with an error
+        // Set submitted to false to let the user subscribe again
+        this.setState({ submitted: false, error: STRIPE_ERROR });
+        return;
+      }
+    } catch (e) {
+      // Reset the state if the request was sent with an error
+      // Set submitted to false to let the user subscribe again
+      this.setState({ submitted: false, error: STRIPE_ERROR });
+      return;
+    }
+    // Send a request to your server with the received credit card token
+    const { error } = await subscribeUser(creditCardToken);
+    // Handle any errors from your server
+    if (error) {
+      this.setState({ submitted: false, error: SERVER_ERROR });
+    } else {
+      this.setState({ submitted: false, error: null });
+      navigation.navigate('Home')
+    }
   };
-}
-
-const styles = StyleSheet.create({
-  welcomeImage: {
-    width: 100,
-    height: 80,
-    resizeMode: "contain",
-    marginTop: 3,
-    marginLeft: -10,
-    alignSelf: "center"
-  },
-  container: {
-    flex: 1,
-    backgroundColor: "#fff"
-  },
-  moneyText: {
-    fontSize: 41,
-    color: "rgba(96,100,109, 1)",
-    textAlign: "center"
-  },
-  subText: {
-    fontSize: 21,
-    color: "rgba(96,100,109, 0.8)",
-    textAlign: "center"
-  },
-  top: {
-    backgroundColor: "#fff"
-  },
-  money: {
-    flex: 1,
-    backgroundColor: "#fff"
-  },
-  addMoney: {
-    flex: 3,
-    backgroundColor: "#fff"
-  },
-  investGroup: {
-    flexDirection: "row",
-    backgroundColor: "#fff",
-    justifyContent: "space-between",
-    marginTop: 3,
-    borderBottomWidth: 2,
-    borderBottomColor: "#7A8385"
-  },
-  investText: {
-    fontSize: 15,
-    width: 200,
-    color: "rgba(96,100,109, 0.8)"
-  },
-  investTextEnd: {
-    fontSize: 15,
-    color: "#CB3438"
-  },
-  investTextEndGood: {
-    fontSize: 15,
-    color: "#52C43B"
+  
+  // render the subscription view component and pass the props to it
+  render() {
+    const { submitted, error } = this.state;
+    return (
+        <AddSubscriptionView
+          error={error}
+          submitted={submitted}
+          onSubmit={this.onSubmit}
+        />
+    );
   }
-});
+}

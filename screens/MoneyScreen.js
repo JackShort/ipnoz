@@ -96,7 +96,7 @@ export default class MoneyScreen extends React.Component {
                 </View>
 
                 <View style={styles.money}>
-                    <Text style={styles.moneyText}>${this.state.money}</Text>
+                    <Text style={styles.moneyText}>{this.state.money} RussBucks</Text>
                     <Text style={styles.subText}>Current Balance</Text>
                 </View>
 
@@ -133,7 +133,7 @@ export default class MoneyScreen extends React.Component {
             db.collection('users').doc(id).set({
                 username: username,
                 password: password,
-                money: money + value
+                money: money + (value * 1000000)
             })
             .then(function() {
                 that.setState({money: money + value});

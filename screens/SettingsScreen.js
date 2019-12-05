@@ -26,7 +26,7 @@ export default function SettingsScreen({ navigation }) {
         />
       </View>
       <View style={styles.money}>
-        <Text style={styles.moneyText}>$16,232</Text>
+        <Text style={styles.moneyText}>1,000,000 RussBucks</Text>
         <Text style={styles.subText}>currently free to invest</Text>
       </View>
       <ScrollView style={styles.invest_container}>
