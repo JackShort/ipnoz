@@ -25,16 +25,7 @@ export default class InvestmentScreen extends React.Component {
       money: 0
     };
   }
-  componentWillMount() {
-    console.log("hey")
-    RNShake.addEventListener('ShakeEvent', () => {
-
-      console.log('Shake Shake Shake');
-    });
-  }
-  componentWillUnmount() {
-    RNShake.removeEventListener();
-  }
+ 
   render() {
     
     return (
@@ -51,7 +42,7 @@ export default class InvestmentScreen extends React.Component {
           />
         </View>
         <ScrollView>
-        <Text style={styles.moneyText}>${this.state.money}</Text>
+        <Text style={styles.moneyText}>Russ Hanneman (played by Chris Diamantopoulos), the embodiment of an Affliction model-meets-dot com mogul, comes to Pied Piper’s rescue by offering them the chance to design the network for his eponymous celebration of leather pants, vanity tequila and Puddle of Mudd. RussFest aims to be everything people hoped the doomed Fyre Festival would be, and everything original Burners hate about how their festival has changed.</Text>
 
         </ScrollView>
         <View style={styles.investGroup}>

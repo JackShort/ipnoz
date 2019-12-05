@@ -77,7 +77,7 @@ export default class SignUpScreen extends React.Component {
             db.collection('users').add({
               username: value["username"],
               password: value["password"],
-              money: 0
+              money: 1000000
             })
             .then(function(docRef) {
               AsyncStorage.setItem('userToken', value["username"]);
