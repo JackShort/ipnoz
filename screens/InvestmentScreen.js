@@ -12,8 +12,6 @@ import {
   Button
 } from "react-native";
 
-import RNShake from 'react-native-shake';
-import ShakeEventExpo from '../components/ShakeEventExpo';
 
 export default class InvestmentScreen extends React.Component {
   static navigationOptions = {
