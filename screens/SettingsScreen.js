@@ -31,27 +31,7 @@ export default function SettingsScreen({ navigation }) {
         <Text style={styles.moneyText}>1,000,000 RussBucks</Text>
         <Text style={styles.subText}>currently free to invest</Text>
       </View>
-      <ScrollView style={styles.invest_container}>
-        <Text style={styles.subText}>Current Investments</Text>
-        <View style={styles.investGroup}>
-          <Text style={styles.investText}>Joe's Shitty Scheme</Text>
-          <Text style={styles.investTextEnd}>-$10231</Text>
-        </View>
-        <View style={styles.investGroup}>
-          <Text style={styles.investText}>
-            Jack's "literally can't lose money" trashcan of money
-          </Text>
-          <Text style={styles.investTextEnd}>-$121</Text>
-        </View>
-        <View style={styles.investGroup}>
-          <Text style={styles.investText}>Han's Roulette Investment Fund</Text>
-          <Text style={styles.investTextEndGood}>$2312</Text>
-        </View>
-        <View style={styles.investGroup}>
-          <Text style={styles.investText}>Chirag's Leverage Loophole</Text>
-          <Text style={styles.investTextEndGood}>$290123</Text>
-        </View>
-      </ScrollView>
+     
         <Button
           backgroundColor="red"
           title="Add more money"
@@ -64,8 +44,7 @@ export default function SettingsScreen({ navigation }) {
           backgroundColor="red"
           title="Add more money"
           text="Check My Investments"
-
-          onPress={() => navigation.navigate("Money")}
+          onPress={() => navigation.navigate("Investment")}
         />
 
       <View style={styles.money}>

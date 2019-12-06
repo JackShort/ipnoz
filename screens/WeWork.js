@@ -15,7 +15,6 @@ import { Container } from 'native-base';
 import * as Font from 'expo-font';
 import Dialog from "react-native-dialog";
 
-import SendSMS from 'react-native-sms'
 
 import * as SMS from 'expo-sms';
 

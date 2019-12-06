@@ -12,6 +12,7 @@ import {
   Button
 } from "react-native";
 
+import { Card } from "react-native-material-ui";
 
 export default class InvestmentScreen extends React.Component {
   static navigationOptions = {
@@ -23,34 +24,38 @@ export default class InvestmentScreen extends React.Component {
       money: 0
     };
   }
- 
+
   render() {
-    
     return (
       <View style={styles.container}>
         <View>
-          <Text style={styles.title}>RussFest</Text>
-          <Image
-            source={
-              __DEV__
-                ? require("../assets/images/gallery_medium.jpg")
-                : require("../assets/images/robot-prod.png")
-            }
-            style={styles.welcomeImage}
-          />
+          <Card>
+            <Text>Hello world!</Text>
+          </Card>
         </View>
-        <ScrollView>
-        <Text style={styles.moneyText}>Russ Hanneman (played by Chris Diamantopoulos), the embodiment of an Affliction model-meets-dot com mogul, comes to Pied Piper’s rescue by offering them the chance to design the network for his eponymous celebration of leather pants, vanity tequila and Puddle of Mudd. RussFest aims to be everything people hoped the doomed Fyre Festival would be, and everything original Burners hate about how their festival has changed.</Text>
-
+        <ScrollView style={styles.invest_container}>
+          <Text style={styles.subText}>Current Investments</Text>
+          <View style={styles.investGroup}>
+            <Text style={styles.investText}>Joe's Shitty Scheme</Text>
+            <Text style={styles.investTextEnd}>-$10231</Text>
+          </View>
+          <View style={styles.investGroup}>
+            <Text style={styles.investText}>
+              Jack's "literally can't lose money" trashcan of money
+            </Text>
+            <Text style={styles.investTextEnd}>-$121</Text>
+          </View>
+          <View style={styles.investGroup}>
+            <Text style={styles.investText}>
+              Han's Roulette Investment Fund
+            </Text>
+            <Text style={styles.investTextEndGood}>$2312</Text>
+          </View>
+          <View style={styles.investGroup}>
+            <Text style={styles.investText}>Chirag's Leverage Loophole</Text>
+            <Text style={styles.investTextEndGood}>$290123</Text>
+          </View>
         </ScrollView>
-        <View style={styles.investGroup}>
-          <Button
-            onPress={() => {
-              alert("Congrats! You are now an investor! If you didn't have enough money in your account to make this transaction that's ok, we'll cover it. You'll just owe us the balance at a low low interest rate of 6% daily!");
-            }}
-            title="Invest 10k RussBucks"
-          />
-        </View>
       </View>
     );
   }
@@ -98,9 +103,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: 3,
     borderRadius: 10,
-      borderWidth: 3,
-      borderColor: '#8c90c3',
-
+    borderWidth: 3,
+    borderColor: "#8c90c3"
   },
   investText: {
     fontSize: 15,

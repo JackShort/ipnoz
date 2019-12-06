@@ -23,7 +23,6 @@ const config = Platform.select({
 const HomeStack = createStackNavigator(
   {
     Home: HomeScreen,
-    Investment: InvestmentScreen,
     RussFest: RussFest,
     WeWork: WeWork,
   },
@@ -66,7 +65,9 @@ const SettingsStack = createStackNavigator(
   {
     Settings: SettingsScreen,
     Money: MoneyScreen,
-    Card: CardScreen
+    Card: CardScreen,
+    Investment: InvestmentScreen,
+
     
   },
   config
