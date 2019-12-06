@@ -62,6 +62,30 @@ export default class WeWork extends React.Component {
     this.setState({ dialogVisible: false });
   };
 
+    _loseMoneyAsync = async () => {
+        const that = this;
+        const value = this._form.getValue()["value"]; // use that ref to get the form value
+        var username = await AsyncStorage.getItem("userToken");
+        db.collection('users').where("username", "==", username)
+        .get()
+        .then(function(querySnapshot) {
+            var d = querySnapshot.docs[0];
+            var id = d.id;
+            var money = d.data()["money"];
+            var username = d.data()["username"]
+            var password = d.data()["password"]
+
+            db.collection('users').doc(id).set({
+                username: username,
+                password: password,
+                money: money - value,
+            })
+            .then(function() {
+              this.props.navigation.navigate("App")
+            });
+        });
+    };
+
   render() {
     return (
       <View style={styles.container}>
@@ -90,7 +114,7 @@ export default class WeWork extends React.Component {
        
         <Button
           title="Show Dialog"
-          text="Invest 10k RussBucks"
+          text="Invest 30,000,000,000 RussBucks"
           onPress={this.showDialog}
           style={{ container: { backgroundColor: '#0abde3' }, text: { color: "#c8d6e5", fontWeight: "bold" } }}
         />

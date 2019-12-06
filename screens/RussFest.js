@@ -83,7 +83,7 @@ export default class WeWork extends React.Component {
        
         <Button
           title="Show Dialog"
-          text="Invest 10k RussBucks"
+          text="Invest 10,000,000,000 RussBucks"
           onPress={this.showDialog}
           style={{ container: { backgroundColor: '#0abde3' }, text: { color: "#c8d6e5", fontWeight: "bold" } }}
         />

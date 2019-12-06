@@ -23,30 +23,35 @@ import { MonoText } from '../components/StyledText';
 const DATA = [
   {
     Name: 'RussFest',
-    Goal: '6.9 trillion',
+    Goal: '6000',
     ROI: '20/4'
   },
   {
     Name: 'WeWork',
-    Goal: 'Literally all of your money',
+    Goal: '60000',
     ROI: '50/10'
   },
   {
     Name: 'North Carolina Real Estate',
-    Goal: '1.6 million',
+    Goal: '120',
     ROI: '10/4'
   },
   {
     Name: 'Blackrock Aggressive Fund',
-    Goal: '2 Russbucks',
+    Goal: '.2',
     ROI: '100/4'
   },
   {
     Name: 'Chickpea Investment Fund',
-    Goal: '3.4 Russbucks',
+    Goal: '.34',
     ROI: '500/2'
   },
 ];
+
+  function currencyFormat(num) {
+    num = String(num)
+    return num.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+  }
 
 function Item({ Name, Goal, ROI, navigate}) {
   const a = {Name}['Name']
@@ -60,7 +65,7 @@ function Item({ Name, Goal, ROI, navigate}) {
         style={{ container: {backgroundColor: "#222f3e"}, rightElement: { color: '#0abde3' }, secondaryText: { color: "#8395a7" }, primaryText: { color: "#c8d6e5", fontWeight: 'bold', fontSize: 17 }, tertiaryText: { color: "#1dd1a1" } }}
         centerElement={{
           primaryText: a,
-          secondaryText : "Goal: " + b,
+          secondaryText : "Goal: " + currencyFormat(b*1000000000) + " Russbucks",
           tertiaryText : 'Weekly Increase: +5%',
         }}
         rightElement='attach-money'

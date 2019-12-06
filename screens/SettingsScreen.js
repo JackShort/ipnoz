@@ -48,7 +48,6 @@ export default class SettingsScreen extends React.Component {
     componentDidMount() {
         const that = this;
         AsyncStorage.getItem("userToken", (errs,result) => {
-            console.log(result)
             db.collection('users').where("username", "==", result)
             .get()
             .then(function(querySnapshot) {
@@ -64,7 +63,6 @@ export default class SettingsScreen extends React.Component {
     componentWillUpdate() {
         const that = this;
         AsyncStorage.getItem("userToken", (errs,result) => {
-            console.log(result)
             db.collection('users').where("username", "==", result)
             .get()
             .then(function(querySnapshot) {
