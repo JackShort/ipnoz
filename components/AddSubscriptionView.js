@@ -36,7 +36,8 @@ const styles = StyleSheet.create({
   },
   infoText: {
     fontSize: 18,
-    textAlign: 'center'
+    textAlign: 'center',
+    color: "#c8d6e5"
   },
   cardFormWrapper: {
     padding: 10,

@@ -17,6 +17,41 @@ import {
 import { ListItem } from 'react-native-material-ui';
 import InvestButton from '../components/InvestButton';
 
+import { firebase } from '@firebase/app';
+import '@firebase/firestore';
+import { parse } from 'qs';
+const firebaseConfig = {
+  apiKey: "AIzaSyDeC0z-nYBAquUosqYmQ31m0m4KeWRd7rk",
+  authDomain: "ipnoz-6d6b3.firebaseapp.com",
+  databaseURL: "ipnoz-6d6b3.firebaseio.com",
+  projectId: "ipnoz-6d6b3",
+  storageBucket: "ipnoz-6d6b3.appspot.com",
+}
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+const db = firebase.firestore();
+
+import t from "tcomb-form-native";
+
+const Form = t.form.Form;
+
+var Positive = t.refinement(t.Number, function(n) {
+    return n >= 0;
+});
+
+const Money = t.struct({
+    value: Positive
+});
+
+const options = {
+    fields: {
+        value: {
+            error: "Please enter an amount"
+        }
+    }
+};
 
 import { MonoText } from '../components/StyledText';
 
@@ -48,6 +83,11 @@ const DATA = [
   },
 ];
 
+function currencyFormat(num) {
+        num = String(num);
+        return num.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+    }
+
 function Item({ Name, Goal, Margin, navigate}) {
   const a = {Name}['Name']
   const b = {Goal}['Goal']
@@ -57,11 +97,11 @@ function Item({ Name, Goal, Margin, navigate}) {
     <View >
         <StatusBar backgroundColor="blue" barStyle="light-content" />
       <ListItem
-        style={{ container: {backgroundColor: "#222f3e"}, rightElement: { color: c > 0 ? "#1dd1a1" : "#ee5253" }, secondaryText: { color: "#8395a7" }, primaryText: { color: "#c8d6e5", fontWeight: 'bold', fontSize: 17 }, tertiaryText: { color: c > 0 ? "#1dd1a1" : "#ee5253"} }}
+        style={{ container: {backgroundColor: "#222f3e"}, rightElement: { color: c >= 0 ? "#1dd1a1" : "#ee5253" }, secondaryText: { color: "#8395a7" }, primaryText: { color: "#c8d6e5", fontWeight: 'bold', fontSize: 17 }, tertiaryText: { color: c >= 0 ? "#1dd1a1" : "#ee5253"} }}
         centerElement={{
           primaryText: a,
-          secondaryText : "Goal: " + b,
-          tertiaryText : c > 0 ? "+" + c + " Russbucks" : "-" + (-1) * c + " Russbucks",
+          secondaryText : "Goal: " + currencyFormat(b * 100000000) + " Russbucks",
+          tertiaryText : c >= 0 ? "+" + currencyFormat(c * 100000000) + " Russbucks" : "-" + currencyFormat(-1 * c * 100000000) + " Russbucks",
         }}
         rightElement={c >= 0 ? 'trending-up': 'trending-down'}
         onPress={() => {navigate.navigate(a)}}
@@ -81,12 +121,49 @@ export default class InvestmentScreen extends React.Component {
     },
   };
 
+    constructor(props) { 
+        super(props); 
+        this.state = { 
+            DATA: []
+        }; 
+    } 
+
+    componentDidMount() {
+        const that = this;
+        AsyncStorage.getItem("userToken", (errs,result) => {
+            console.log(result)
+            db.collection('myInvestments')
+            .get()
+            .then(function(querySnapshot) {
+                querySnapshot.forEach(function(doc) {
+                    that.state.DATA.push(doc.data());
+                });
+
+            })
+        });
+    }
+
+    componentDidUpdate() {
+        const that = this;
+        AsyncStorage.getItem("userToken", (errs,result) => {
+            console.log(result)
+            db.collection('myInvestments')
+            .get()
+            .then(function(querySnapshot) {
+                querySnapshot.forEach(function(doc) {
+                    that.state.DATA.push(doc.data());
+                });
+
+            })
+        });
+    }
+
   render() {
 
     return (
       <View style={styles.container}>
           <FlatList
-          data={DATA}
+          data={this.state.DATA}
           renderItem={({ item }) => <Item Name={item.Name} Goal={item.Goal} Margin={item.Margin} navigate = {this.props.navigation} />}
           keyExtractor={item => item.Name}
         />

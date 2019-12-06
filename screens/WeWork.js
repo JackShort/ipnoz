@@ -15,6 +15,21 @@ import { Container } from 'native-base';
 import * as Font from 'expo-font';
 import Dialog from "react-native-dialog";
 
+import { firebase } from '@firebase/app';
+import '@firebase/firestore';
+import { parse } from 'qs';
+const firebaseConfig = {
+  apiKey: "AIzaSyDeC0z-nYBAquUosqYmQ31m0m4KeWRd7rk",
+  authDomain: "ipnoz-6d6b3.firebaseapp.com",
+  databaseURL: "ipnoz-6d6b3.firebaseio.com",
+  projectId: "ipnoz-6d6b3",
+  storageBucket: "ipnoz-6d6b3.appspot.com",
+}
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+const db = firebase.firestore();
 
 import * as SMS from 'expo-sms';
 
@@ -60,11 +75,12 @@ export default class WeWork extends React.Component {
  
   handleCancel = () => {
     this.setState({ dialogVisible: false });
+    this._loseMoneyAsync();
   };
 
     _loseMoneyAsync = async () => {
         const that = this;
-        const value = this._form.getValue()["value"]; // use that ref to get the form value
+        const value = 3;
         var username = await AsyncStorage.getItem("userToken");
         db.collection('users').where("username", "==", username)
         .get()
@@ -81,7 +97,13 @@ export default class WeWork extends React.Component {
                 money: money - value,
             })
             .then(function() {
-              this.props.navigation.navigate("App");
+              db.collection('myInvestments').add({
+                Name: "WeWork",
+                Goal: 60000,
+                Margin: 0
+              }).then(function(){
+                that.props.navigation.navigate("Home");
+              })
             });
         });
     };

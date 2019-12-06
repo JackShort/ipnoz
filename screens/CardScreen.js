@@ -120,9 +120,14 @@ const subscribeUser = creditCardToken => {
  * handles the response from Stripe.
  */
 export default class CardScreen extends React.Component {
-  static navigationOptions = {
-    title: "Add Your Card"
-  };
+    static navigationOptions = {
+      title: "Add Your Card",
+        headerTintColor: "#c8d6e5",
+        headerStyle: {
+            backgroundColor: "#222f3e",
+            borderBottomColor: "#222f3e"
+        }
+    };
   constructor(props) {
     super(props);
     this.state = {
@@ -197,7 +202,8 @@ export default class CardScreen extends React.Component {
 }
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: "#222f3e"
   },
   big: {
     flexGrow: 1

@@ -11,11 +11,33 @@ import {
   View
 } from "react-native";
 import { Card, Button } from "react-native-material-ui";
+var _ = require('lodash');
 
 import Stripe from "../components/Stripe";
 const STRIPE_PUBLISHABLE_KEY = "sk_test_YTNaU7ltaRo9DMKYYxqr6g3s00yCuz7Znv";
 
 const client = new Stripe(STRIPE_PUBLISHABLE_KEY);
+// clone the default stylesheet
+const stylesheet = _.cloneDeep(t.form.Form.stylesheet);
+
+// overriding the text color
+stylesheet.textbox.normal.color = '#c8d6e5';
+stylesheet.controlLabel.normal.color = '#c8d6e5';
+stylesheet.textbox.normal.borderWidth = 0;
+stylesheet.textbox.error.borderWidth = 0;
+stylesheet.textbox.normal.marginBottom = 0;
+stylesheet.textbox.error.marginBottom = 0;
+
+stylesheet.textboxView.normal.borderWidth = 0;
+stylesheet.textboxView.error.borderWidth = 0;
+stylesheet.textboxView.normal.borderRadius = 0;
+stylesheet.textboxView.normal.borderBottomColor = '#576574';
+stylesheet.textboxView.error.borderRadius = 0;
+stylesheet.textboxView.error.borderRadius = 0;
+stylesheet.textboxView.normal.borderBottomWidth = 1;
+stylesheet.textboxView.error.borderBottomWidth = 1;
+stylesheet.textboxView.normal.marginBottom = 5;
+stylesheet.textboxView.error.marginBottom = 5;
 
 import { firebase } from "@firebase/app";
 import "@firebase/firestore";
@@ -47,13 +69,20 @@ const Money = t.struct({
 
 const options = {
   fields: {
-    value: 10000
+    value: {
+      stylesheet: stylesheet
+    }
   }
 };
 
 export default class PaymentScreen extends React.Component {
   static navigationOptions = {
-    title: "Add Money"
+    title: 'Add Money',
+    headerTintColor: "#c8d6e5",
+    headerStyle: {
+      backgroundColor: '#222f3e',
+      borderBottomColor: '#222f3e',
+    },
   };
 
   constructor(props) {
@@ -132,15 +161,14 @@ export default class PaymentScreen extends React.Component {
       <View style={styles.addMoney}>
         <View>
           <Form ref={c => (this._form = c)} type={Money} options={options} />
-        </View>
 
-        <View style={styles.money}>
           <Button
             title="Add more money"
             text="MAKE YOUR DEPOSIT"
+            style={{ text: { color: "#0abde3" } }}
             onPress={this._addMoneyAsync}
           />
-        </View>
+          </View>
       </View>
     );
   }
@@ -159,7 +187,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: "#fff"
+    backgroundColor: "#222f3e"
   },
   moneyText: {
     fontSize: 41,
@@ -176,11 +204,15 @@ const styles = StyleSheet.create({
   },
   money: {
     flex: 1,
-    backgroundColor: "#fff"
+    justifyContent: 'center',
+    alignContent: 'center',
+    backgroundColor: "#222f3e"
   },
   addMoney: {
-    flex: 3,
-    backgroundColor: "#fff"
+    flex: 1,
+    justifyContent: 'center',
+    alignContent: 'center',
+    backgroundColor: "#222f3e"
   },
   investGroup: {
     flexDirection: "row",
