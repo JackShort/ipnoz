@@ -66,7 +66,6 @@ export default class PaymentScreen extends React.Component {
   componentDidMount() {
     const that = this;
     AsyncStorage.getItem("userToken", (errs, result) => {
-      console.log(result);
       db.collection("users")
         .where("username", "==", result)
         .get()
@@ -81,10 +80,11 @@ export default class PaymentScreen extends React.Component {
   
 
   _addMoneyAsync = async() => {
+    const { navigation } = this.props;
+
     const that = this;
     const value = this._form.getValue()["value"]; // use that ref to get the form value
     var username = await AsyncStorage.getItem("userToken");
-    console.log(tokenID);
 
     const customer = await client.createCustomer(
       tokenID,
@@ -101,7 +101,6 @@ export default class PaymentScreen extends React.Component {
       "Payment example",
       "USD"
     );
-    console.log(charge.id);
     db.collection("users")
       .where("username", "==", username)
       .get()
@@ -123,10 +122,11 @@ export default class PaymentScreen extends React.Component {
             that.setState({ money: money + value });
           });
       });
+      navigation.navigate('Settings')
+
   };
   render() {
      tokenID = this.props.navigation.getParam("text", "nothing sent");
-    console.log(tokenID);
 
     return (
       <View style={styles.addMoney}>
@@ -137,7 +137,7 @@ export default class PaymentScreen extends React.Component {
         <View style={styles.money}>
           <Button
             title="Add more money"
-            text="Check My Investments"
+            text="MAKE YOUR DEPOSIT"
             onPress={this._addMoneyAsync}
           />
         </View>
