@@ -60,9 +60,6 @@ export default class WeWork extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Card>
-          <Text>Hello world!</Text>
-        </Card>
         <View>
           <Text style={styles.title}>WeWork</Text>
           <Image
