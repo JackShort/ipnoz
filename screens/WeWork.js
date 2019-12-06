@@ -23,7 +23,12 @@ import ShakeEventExpo from "../components/ShakeEventExpo";
 
 export default class WeWork extends React.Component {
   static navigationOptions = {
-    title: "Investment Portfolio"
+    title: 'WeWork',
+    headerTintColor: "#c8d6e5",
+    headerStyle: {
+      backgroundColor: '#222f3e',
+      borderBottomColor: '#222f3e',
+    },
   };
   constructor(props) {
     super(props);
@@ -60,9 +65,6 @@ export default class WeWork extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Card>
-          <Text>Hello world!</Text>
-        </Card>
         <View>
           <Text style={styles.title}>WeWork</Text>
           <Image
@@ -90,6 +92,7 @@ export default class WeWork extends React.Component {
           title="Show Dialog"
           text="Invest 10k RussBucks"
           onPress={this.showDialog}
+          style={{ container: { backgroundColor: '#0abde3' }, text: { color: "#c8d6e5", fontWeight: "bold" } }}
         />
         <Dialog.Container visible={this.state.dialogVisible}>
           <Dialog.Title>Thank You!</Dialog.Title>
@@ -116,11 +119,11 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: "#fff"
+    backgroundColor: "#222f3e"
   },
   title: {
     fontSize: 30,
-    color: "rgba(96,100,109, 1)",
+    color: "#c8d6e5",
     textAlign: "center",
     marginTop: 10,
     marginBottom: 10
@@ -131,11 +134,11 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
   top: {
-    backgroundColor: "#fff"
+    backgroundColor: "#222f3e"
   },
   money: {
     flex: 1,
-    backgroundColor: "#fff"
+    backgroundColor: "#222f3e"
   },
   addMoney: {
     flex: 3,
@@ -162,5 +165,12 @@ const styles = StyleSheet.create({
   investTextEndGood: {
     fontSize: 15,
     color: "#52C43B"
+  },
+  moneyText: {
+    color: "#c8d6e5"
+  },
+  investButton: {
+    color: "#c8d6e5",
+    backgroundColor: "#0abde3"
   }
 });

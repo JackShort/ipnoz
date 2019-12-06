@@ -1,6 +1,6 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import { createStackNavigator, createBottomTabNavigator, BottomTabBar } from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
@@ -83,9 +83,16 @@ SettingsStack.navigationOptions = {
 
 SettingsStack.path = '';
 
+const TabBarComponent = props => <BottomTabBar {...props} />;
+
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
   SettingsStack,
+},
+{
+  tabBarComponent: props => (
+    <TabBarComponent {...props} style={{ backgroundColor: "#222f3e", borderTopColor: '#222f3e', activeBackgroundColor: "#0abde3" }} />
+  ),
 });
 
 tabNavigator.path = '';
