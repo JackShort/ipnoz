@@ -12,57 +12,121 @@ import {
 } from "react-native";
 import { Card, Button } from "react-native-material-ui";
 
-
-export default function SettingsScreen({ navigation }) {
-  _signOutAsync = async () => {
-    await AsyncStorage.clear();
-    navigation.navigate('Auth');
-  };
- 
-  return (
-    <View style={styles.container}>
-      <View style={styles.top}>
-        <Image
-          source={
-            __DEV__
-              ? require("../assets/images/robot-dev.png")
-              : require("../assets/images/robot-prod.png")
-          }
-          style={styles.welcomeImage}
-        />
-      </View>
-      <View style={styles.money}>
-        <Text style={styles.moneyText}>1,000,000 RussBucks</Text>
-        <Text style={styles.subText}>currently free to invest</Text>
-      </View>
-     
-        
-        <Button title="Sign out"  text="Sign Out" onPress={this._signOutAsync} />
-        <Button
-          backgroundColor="red"
-          title="Add more money"
-          text="Check My Investments"
-          onPress={() => navigation.navigate("Investment")}
-        />
-
-      <View style={styles.money}>
-        <Button
-          backgroundColor="red"
-          title="Add a card"
-          text="Add a card"
-
-          onPress={() => navigation.navigate("Card")}
-        />
-      </View>
-    </View>
-  );
-
-  
+import { firebase } from '@firebase/app';
+import '@firebase/firestore';
+import { parse } from 'qs';
+const firebaseConfig = {
+  apiKey: "AIzaSyDeC0z-nYBAquUosqYmQ31m0m4KeWRd7rk",
+  authDomain: "ipnoz-6d6b3.firebaseapp.com",
+  databaseURL: "ipnoz-6d6b3.firebaseio.com",
+  projectId: "ipnoz-6d6b3",
+  storageBucket: "ipnoz-6d6b3.appspot.com",
 }
 
-SettingsScreen.navigationOptions = {
-  title: "User Profile"
-};
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+const db = firebase.firestore();
+
+export default class SettingsScreen extends React.Component {
+  static navigationOptions = {
+    title: 'User Profile',
+    headerTintColor: "#c8d6e5",
+    headerStyle: {
+      backgroundColor: '#222f3e',
+      borderBottomColor: '#222f3e',
+    },
+  };
+
+    constructor(props) { 
+        super(props); 
+        this.state = { 
+            money: 0
+        }; 
+    } 
+
+    componentDidMount() {
+        const that = this;
+        AsyncStorage.getItem("userToken", (errs,result) => {
+            console.log(result)
+            db.collection('users').where("username", "==", result)
+            .get()
+            .then(function(querySnapshot) {
+                var money;
+                querySnapshot.forEach(function(doc) {
+                    that.setState({ money: doc.data()["money"] * 1000000000});
+                });
+
+            })
+        });
+    }
+
+    componentWillUpdate() {
+        const that = this;
+        AsyncStorage.getItem("userToken", (errs,result) => {
+            console.log(result)
+            db.collection('users').where("username", "==", result)
+            .get()
+            .then(function(querySnapshot) {
+                var money;
+                querySnapshot.forEach(function(doc) {
+                    that.setState({ money: doc.data()["money"] * 1000000000});
+                });
+
+            })
+        });
+    }
+
+  _signOutAsync = async () => {
+    await AsyncStorage.clear();
+    this.props.navigation.navigate('Auth');
+  };
+
+  currencyFormat(num) {
+    num = String(num)
+    return num.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+  }
+  render() {
+    return (
+      <View style={styles.container}>
+        <View style={styles.top}>
+          <Image
+            source={
+              __DEV__
+                ? require("../assets/images/robot-dev.png")
+                : require("../assets/images/robot-prod.png")
+            }
+            style={styles.welcomeImage}
+          />
+        </View>
+        <View style={styles.money}>
+
+          <Text style={styles.moneyText}>{this.currencyFormat(this.state.money)} RussBucks</Text>
+          <Text style={styles.subText}>currently free to invest</Text>
+        </View>
+          
+          
+          <Button
+            backgroundColor="red"
+            title="Add more money"
+            text="Check My Investments"
+            onPress={() => this.props.navigation.navigate("Investment")}
+          />
+
+        <View style={styles.money}>
+          <Button
+            backgroundColor="red"
+            title="Add a card"
+            text="Add a card"
+
+            onPress={() => this.props.navigation.navigate("Card")}
+          />
+          <Button title="Sign out"  text="Sign Out" onPress={this._signOutAsync} />
+        </View>
+      </View>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   welcomeImage: {

@@ -117,7 +117,7 @@ export default class PaymentScreen extends React.Component {
           .set({
             username: username,
             password: password,
-            money: money + value * 1000000
+            money: money + value
           })
           .then(function() {
             that.setState({ money: money + value });
