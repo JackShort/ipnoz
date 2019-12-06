@@ -23,7 +23,7 @@ import ShakeEventExpo from "../components/ShakeEventExpo";
 
 export default class WeWork extends React.Component {
   static navigationOptions = {
-    title: 'Investment Portfolio',
+    title: 'Russfest',
     headerTintColor: "#c8d6e5",
     headerStyle: {
       backgroundColor: '#222f3e',

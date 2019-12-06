@@ -2,10 +2,14 @@ import React, { Component } from 'react';
 import { Text, View, Button, StyleSheet } from 'react-native';
 
 export default class InvestButton extends Component {
+  constructor(props) {
+    super(props);
+  }
+  
   render() {
     return (
         <View style={styles.container}>
-            <Text style={styles.moneyButton}>10/4</Text>
+            <Text style={styles.moneyButton}>{this.props.ROI}</Text>
         </View>
     );
   }
