@@ -124,13 +124,13 @@ export default class WeWork extends React.Component {
         </View>
         <ScrollView>
           <Text style={styles.moneyText}>
-            Russ Hanneman (played by Chris Diamantopoulos), the embodiment of an
-            Affliction model-meets-dot com mogul, comes to Pied Piper’s rescue
-            by offering them the chance to design the network for his eponymous
-            celebration of leather pants, vanity tequila and Puddle of Mudd.
-            RussFest aims to be everything people hoped the doomed Fyre Festival
-            would be, and everything original Burners hate about how their
-            festival has changed.
+          WeWork is simply an office-leasing company. It makes money by renting office space. WeWork purchases real estate space—sometimes just a floor or two in an office building—and transforms it into smaller offices and common areas. It rents desks to individuals or groups who want the benefits of a fully stocked office without the expense of a full office.
+
+Members include independent freelancers and remote workers who need an occasional office away from home. They may want unlimited Wi-Fi to focus on a deadline. Other customers are small businesses with multiple employees who need a consistent place to work, have meetings, and build their budding empires, but without the high cost.
+
+Those leases don't come cheap. The company reported long-term lease obligations of $17.9 billion in its IPO filing, a number that is likely to increase as the company continues to expand globally.
+
+
           </Text>
         </ScrollView>
        
