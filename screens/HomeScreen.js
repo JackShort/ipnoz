@@ -5,6 +5,7 @@ import {
   Platform,
   ScrollView,
   StyleSheet,
+  StatusBar,
   AsyncStorage,
   Text,
   TouchableOpacity,
@@ -14,6 +15,7 @@ import {
   Button,
 } from 'react-native';
 import { ListItem } from 'react-native-material-ui';
+import InvestButton from '../components/InvestButton';
 
 
 import { MonoText } from '../components/StyledText';
@@ -22,44 +24,47 @@ const DATA = [
   {
     Name: 'RussFest',
     Goal: '6.9 trillion',
+    ROI: '20/4'
   },
   {
     Name: 'WeWork',
     Goal: 'Literally all of your money',
+    ROI: '50/10'
   },
   {
     Name: 'North Carolina Real Estate',
     Goal: '1.6 million',
+    ROI: '10/4'
   },
   {
     Name: 'Blackrock Aggressive Fund',
-    Goal: '$2',
+    Goal: '2 Russbucks',
+    ROI: '100/4'
   },
   {
     Name: 'Chickpea Investment Fund',
-    Goal: '$3',
+    Goal: '3.4 Russbucks',
+    ROI: '500/2'
   },
-
-   
-  
-  {
-    Name: 'Investment 6',
-    Goal: '$3',
-  }
 ];
 
-function Item({ Name, Goal, navigate}) {
+function Item({ Name, Goal, ROI, navigate}) {
   const a = {Name}['Name']
   const b = {Goal}['Goal']
+  const c = {ROI}['ROI']
 
   return (
     <View >
+        <StatusBar backgroundColor="blue" barStyle="light-content" />
       <ListItem
-        divider
+        style={{ container: {backgroundColor: "#222f3e"}, rightElement: { color: '#0abde3' }, secondaryText: { color: "#8395a7" }, primaryText: { color: "#c8d6e5", fontWeight: 'bold', fontSize: 17 }, tertiaryText: { color: "#1dd1a1" } }}
         centerElement={{
           primaryText: a,
-          secondaryText : b,
+          secondaryText : "Goal: " + b,
+          tertiaryText : 'Weekly Increase: +5%',
         }}
+        rightElement='attach-money'
+        leftElement={<InvestButton ROI={c}/>}
         onPress={() => {navigate.navigate(a)}}
       />
       
@@ -69,7 +74,12 @@ function Item({ Name, Goal, navigate}) {
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
-    title: 'Investment Portfolio',
+    title: 'Available Funds',
+    headerTintColor: "#c8d6e5",
+    headerStyle: {
+      backgroundColor: '#222f3e',
+      borderBottomColor: '#222f3e',
+    },
   };
 
   render() {
@@ -78,11 +88,9 @@ export default class HomeScreen extends React.Component {
       <View style={styles.container}>
           <FlatList
           data={DATA}
-          renderItem={({ item }) => <Item Name={item.Name} Goal={item.Goal} navigate = {this.props.navigation} />}
+          renderItem={({ item }) => <Item Name={item.Name} Goal={item.Goal} ROI={item.ROI} navigate = {this.props.navigation} />}
           keyExtractor={item => item.Name}
         />
-
-        <Button title="Sign out" onPress={this._signOutAsync} />
       </View>
     );
   }
@@ -96,7 +104,7 @@ export default class HomeScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#222f3e',
   },
   developmentModeText: {
     marginBottom: 20,

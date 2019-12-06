@@ -7,10 +7,33 @@ import {
   Text,
   TextInput,
   View,
-  Button,
   Alert,
 } from 'react-native';
+import { Card, Button } from "react-native-material-ui";
 import t from 'tcomb-form-native';
+var _ = require('lodash');
+
+// clone the default stylesheet
+const stylesheet = _.cloneDeep(t.form.Form.stylesheet);
+
+// overriding the text color
+stylesheet.textbox.normal.color = '#c8d6e5';
+stylesheet.controlLabel.normal.color = '#c8d6e5';
+stylesheet.textbox.normal.borderWidth = 0;
+stylesheet.textbox.error.borderWidth = 0;
+stylesheet.textbox.normal.marginBottom = 0;
+stylesheet.textbox.error.marginBottom = 0;
+
+stylesheet.textboxView.normal.borderWidth = 0;
+stylesheet.textboxView.error.borderWidth = 0;
+stylesheet.textboxView.normal.borderRadius = 0;
+stylesheet.textboxView.normal.borderBottomColor = '#576574';
+stylesheet.textboxView.error.borderRadius = 0;
+stylesheet.textboxView.error.borderRadius = 0;
+stylesheet.textboxView.normal.borderBottomWidth = 1;
+stylesheet.textboxView.error.borderBottomWidth = 1;
+stylesheet.textboxView.normal.marginBottom = 5;
+stylesheet.textboxView.error.marginBottom = 5;
 
 const Form = t.form.Form;
 
@@ -22,10 +45,12 @@ const User = t.struct({
 const options = {
   fields: {
     username: {
-      error: 'Add a username, you kinda need one. Idk what you are even thinking.'
+      error: 'Add a username, you kinda need one. Idk what you are even thinking.',
+      stylesheet: stylesheet
     },
     password: {
-      error: 'Do you want anybody to access your account?'
+      error: 'Do you want anybody to access your account?',
+      stylesheet: stylesheet
     },
   },
 };
@@ -47,21 +72,27 @@ if (!firebase.apps.length) {
 const db = firebase.firestore();
 
 export default class SignUpScreen extends React.Component {
-    static navigationOptions = {
-      title: 'Create an Account',
-      headerLeft: null
-    };
+  static navigationOptions = {
+    title: 'Create an Account',
+    headerTintColor: "#c8d6e5",
+    headerStyle: {
+      backgroundColor: '#10ac84',
+      borderBottomColor: '#10ac84',
+    },
+  };
   
     render() {
       return (
         <View style={styles.container}>
-          <Form 
-          ref={c => this._form = c}
-          type={User} 
-          options={options}
-          />
-          <Button title="Create Account!" onPress={this._createAccountAsync} />
-          <Button title="Already have an account? Sign in here!" onPress={() => this.props.navigation.navigate('SignIn')} />
+          <View style={{paddingTop: 100}}>
+            <Form 
+            ref={c => this._form = c}
+            type={User} 
+            options={options}
+            />
+          </View>
+          <Button title="test" text="Create Account!" onPress={this._createAccountAsync} style={{ text: { color: "#c8d6e5" } }}/>
+          <Button title="test" text="Already have an account? Sign in here!" onPress={() => this.props.navigation.navigate('SignIn')} style={{ text: { color: "#feca57" } }}/>
         </View>
       );
     }
@@ -81,7 +112,7 @@ export default class SignUpScreen extends React.Component {
             })
             .then(function(docRef) {
               AsyncStorage.setItem('userToken', value["username"]);
-              nav.navigate('App');
+              nav.navigate('Loading');
             });
           }
         })
@@ -111,7 +142,7 @@ export default class SignUpScreen extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: 50,
         padding: 20,
+        backgroundColor: "#10ac84"
     }
 });

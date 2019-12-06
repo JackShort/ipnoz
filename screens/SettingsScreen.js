@@ -14,6 +14,10 @@ import { Card, Button } from "react-native-material-ui";
 
 
 export default function SettingsScreen({ navigation }) {
+  _signOutAsync = async () => {
+    await AsyncStorage.clear();
+    navigation.navigate('Auth');
+  };
  
   return (
     <View style={styles.container}>
