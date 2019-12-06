@@ -60,7 +60,13 @@ export default function SettingsScreen({ navigation }) {
           onPress={() => navigation.navigate("Money")}
         />
         <Button title="Sign out"  text="Sign Out" onPress={this._signOutAsync} />
+        <Button
+          backgroundColor="red"
+          title="Add more money"
+          text="Check My Investments"
 
+          onPress={() => navigation.navigate("Money")}
+        />
 
       <View style={styles.money}>
         <Button

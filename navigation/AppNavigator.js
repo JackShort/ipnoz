@@ -7,9 +7,10 @@ import HomeScreen from '../screens/HomeScreen';
 import SignInScreen from '../components/SignInScreen';
 import AuthLoadingScreen from '../components/AuthLoadingScreen';
 import SignUpScreen from '../components/SignUpScreen';
+import PonziScreen from '../screens/PonziScreen';
 
 // const AppStack = createStackNavigator({ Main: MainTabNavigator });
-const AuthStack = createStackNavigator({ SignIn: SignInScreen, SignUp: SignUpScreen });
+const AuthStack = createStackNavigator({ SignIn: SignInScreen, SignUp: SignUpScreen, Loading: PonziScreen });
 
 export default createAppContainer(
   createSwitchNavigator(
