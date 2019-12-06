@@ -32,13 +32,7 @@ export default function SettingsScreen({ navigation }) {
         <Text style={styles.subText}>currently free to invest</Text>
       </View>
      
-        <Button
-          backgroundColor="red"
-          title="Add more money"
-          text="Add more money"
-
-          onPress={() => navigation.navigate("Money")}
-        />
+        
         <Button title="Sign out"  text="Sign Out" onPress={this._signOutAsync} />
         <Button
           backgroundColor="red"

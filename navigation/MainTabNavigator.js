@@ -10,7 +10,7 @@ import MoneyScreen from '../screens/MoneyScreen';
 import CardScreen from '../screens/CardScreen';
 import RussFest from '../screens/RussFest';
 import WeWork from '../screens/WeWork';
-
+import PaymentScreen from '../screens/PaymentScreen';
 
 
 import InvestmentScreen from '../screens/InvestmentScreen';
@@ -67,6 +67,7 @@ const SettingsStack = createStackNavigator(
     Money: MoneyScreen,
     Card: CardScreen,
     Investment: InvestmentScreen,
+    PaymentScreen: PaymentScreen
 
     
   },
