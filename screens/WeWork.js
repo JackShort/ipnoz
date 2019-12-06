@@ -81,7 +81,7 @@ export default class WeWork extends React.Component {
                 money: money - value,
             })
             .then(function() {
-              this.props.navigation.navigate("App")
+              this.props.navigation.navigate("App");
             });
         });
     };
